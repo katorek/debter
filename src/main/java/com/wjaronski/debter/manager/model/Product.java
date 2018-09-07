@@ -10,8 +10,9 @@ import lombok.Data;
 public class Product {
 
     private String name;
-    private double price;
+    private Double price;
     private String debtor;
     private String creditor;
-    private boolean everyonePays;
+    private Boolean everyonePays;
+    //todo check how many clients pay for all products and split equally
 }

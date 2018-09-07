@@ -15,8 +15,8 @@ public class ProductToDebtConverter implements Converter<Product, Debt> {
     public Debt convert(Product product) {
         Debt debt = new Debt();
         debt.setAmount(product.getPrice());
-        debt.setCreditor(debt.getCreditor());
-        debt.setDebtor(debt.getDebtor());
+        debt.setCreditor(product.getCreditor());
+        debt.setDebtor(product.getDebtor());
         return debt;
     }
 }

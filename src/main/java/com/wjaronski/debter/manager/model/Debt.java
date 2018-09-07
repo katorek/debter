@@ -19,7 +19,7 @@ public class Debt {
     private Long id;
     private String debtor;
     private String creditor;
-    private double amount;
+    private Double amount;
 
     public static Debt getReversed(Debt debt) {
         Debt reversed = new Debt();
@@ -29,7 +29,7 @@ public class Debt {
         return reversed;
     }
 
-    public double updateAmount(double amount) {
+    public double updateAmount(Double amount) {
         return this.amount += amount;
     }
 }

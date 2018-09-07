@@ -4,10 +4,7 @@ import com.wjaronski.debter.manager.model.Bill;
 import com.wjaronski.debter.manager.model.Debt;
 import com.wjaronski.debter.manager.service.BillService;
 import com.wjaronski.debter.manager.service.DebtService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -43,7 +40,7 @@ public class DebtController {
     }
 
     @PostMapping("/bill")
-    public void addBill(@Valid Bill bill) {
+    public void addBill(@RequestBody @Valid Bill bill) {
         debtService.addDebts(billService.billToDebtList(bill));
     }
 }
