@@ -2,6 +2,7 @@ package com.wjaronski.debter.manager.service;
 
 import com.wjaronski.debter.manager.model.Bill;
 import com.wjaronski.debter.manager.model.Debt;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 public class BillService {
     private final ConversionService conversionService;
 
-    public BillService(ConversionService conversionService) {
+    public BillService(@Qualifier("mvcConversionService") ConversionService conversionService) {
         this.conversionService = conversionService;
     }
 

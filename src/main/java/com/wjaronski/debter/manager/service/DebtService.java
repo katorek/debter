@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Wojciech Jaronski
@@ -20,12 +19,16 @@ public class DebtService {
         this.debtRepository = debtRepository;
     }
 
-    public Set<Debt> getAllByDebtor(String debtor) {
-        return debtRepository.getAllByDebtor(debtor);
+    public List<Debt> findAllByDebtor(String debtor) {
+        return debtRepository.findAllByDebtor(debtor);
     }
 
-    public Set<Debt> getAllByCreditor(String creditor) {
-        return debtRepository.getAllByCreditor(creditor);
+    public List<Debt> findAllByCreditor(String creditor) {
+        return debtRepository.findAllByCreditor(creditor);
+    }
+
+    public void addDebts(List<Debt> debtList) {
+        debtList.forEach(this::addDebt);
     }
 
     @Transactional

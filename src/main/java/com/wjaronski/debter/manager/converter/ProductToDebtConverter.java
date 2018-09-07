@@ -9,7 +9,6 @@ import org.springframework.lang.Nullable;
 /**
  * Created by Wojciech Jaronski
  */
-
 public class ProductToDebtConverter implements Converter<Product, Debt> {
     @Nullable
     @Override
