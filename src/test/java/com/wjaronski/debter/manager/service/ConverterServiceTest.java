@@ -2,6 +2,7 @@ package com.wjaronski.debter.manager.service;
 
 import com.wjaronski.debter.manager.model.Debt;
 import com.wjaronski.debter.manager.model.Product;
+import com.wjaronski.debter.manager.model.User;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,16 +54,16 @@ public class ConverterServiceTest {
 
     private Debt getExactlyTheSameDebt() {
         Debt debt = new Debt();
-        debt.setCreditor(("Creditor"));
-        debt.setDebtor(("Debtor"));
+        debt.setCreditor(User.getUserOf("Creditor"));
+        debt.setDebtor(User.getUserOf("Debtor"));
         debt.setAmount(0.0);
         return debt;
     }
 
     private Debt getUniqueDebt() {
         Debt debt = new Debt();
-        debt.setDebtor((UUID.randomUUID().toString()));
-        debt.setCreditor((UUID.randomUUID().toString()));
+        debt.setDebtor(User.getUserOf(UUID.randomUUID().toString()));
+        debt.setCreditor(User.getUserOf(UUID.randomUUID().toString()));
         debt.setAmount(0.0);
         return debt;
     }

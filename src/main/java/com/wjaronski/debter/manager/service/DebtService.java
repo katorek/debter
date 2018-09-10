@@ -1,7 +1,9 @@
 package com.wjaronski.debter.manager.service;
 
 import com.wjaronski.debter.manager.model.Debt;
+import com.wjaronski.debter.manager.model.User;
 import com.wjaronski.debter.manager.repository.DebtRepository;
+import com.wjaronski.debter.manager.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,9 +17,11 @@ import java.util.Optional;
 @Service
 public class DebtService {
     private final DebtRepository debtRepository;
+    private final UserRepository userRepository;
 
-    public DebtService(DebtRepository debtRepository) {
+    public DebtService(DebtRepository debtRepository, UserRepository userRepository) {
         this.debtRepository = debtRepository;
+        this.userRepository = userRepository;
     }
 
     public List<Debt> findAllByDebtor(String debtor) {
@@ -49,7 +53,7 @@ public class DebtService {
 
     private void save(Debt debt) {
         if (debt.getAmount() < 0.0) {
-            Optional<Debt> tempDebt = debtRepository.findByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
+            Optional<Debt> tempDebt = findByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
             if (tempDebt.isPresent()) {
                 debt.setId(tempDebt.get().getId());
             }
@@ -58,12 +62,26 @@ public class DebtService {
         debtRepository.save(debt);
     }
 
-    private Debt getByCreditorAndDebtor(String creditor, String debtor) {
-        return debtRepository.findByCreditorAndDebtor(creditor, debtor).orElse(null);
+    private Optional<Debt> findByCreditorAndDebtor(User creditor, User debtor) {
+        Optional<User> optCred = userRepository.getByName(creditor.getName());
+        Optional<User> optDebt = userRepository.getByName(debtor.getName());
+
+        if (!optCred.isPresent()) creditor = userRepository.save(creditor);
+        if (!optDebt.isPresent()) debtor = userRepository.save(debtor);
+
+
+        return debtRepository.findByCreditorAndDebtor(creditor, debtor);
+    }
+
+    private Debt getByCreditorAndDebtor(User creditor, User debtor) {
+        return findByCreditorAndDebtor(creditor, debtor).orElse(null);
     }
 
     private boolean debtExists(Debt d1) {
-        return debtRepository.findByCreditorAndDebtor(d1.getCreditor(), d1.getDebtor()).isPresent();
+//        String creditor = d1.getCreditor().toString();
+//        String debtor = d1.getDebtor().toString();
+
+        return findByCreditorAndDebtor(d1.getCreditor(), d1.getDebtor()).isPresent();
     }
 
     public List<Debt> findAll() {

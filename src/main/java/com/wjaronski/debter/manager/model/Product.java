@@ -23,7 +23,7 @@ public class Product {
     private Boolean everyonePays;
 
     @ManyToOne
-    @JoinColumn(name = "bill_id")
+    @JoinColumn(name = "billId")
     private Bill bill;
 
 //    public String getDebtor() {

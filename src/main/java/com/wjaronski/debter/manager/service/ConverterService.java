@@ -2,6 +2,7 @@ package com.wjaronski.debter.manager.service;
 
 import com.wjaronski.debter.manager.model.Debt;
 import com.wjaronski.debter.manager.model.Product;
+import com.wjaronski.debter.manager.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,11 +18,12 @@ public class ConverterService {
 
     List<Debt> splitToDebtors(Product product, String creditor, List<String> debtors) {
         return debtors.parallelStream()
-                .map(debtor -> debtFor(product.getPrice(), creditor, debtor, debtors.size()))
+                //todo User.getUserOf
+                .map(debtor -> debtFor(product.getPrice(), User.getUserOf(creditor), User.getUserOf(debtor), debtors.size()))
                 .collect(Collectors.toList());
     }
 
-    private Debt debtFor(double price, String creditor, String debtor, int divideBy) {
+    private Debt debtFor(double price, User creditor, User debtor, int divideBy) {
         Debt debt = new Debt();
         debt.setAmount(price / divideBy);
         debt.setCreditor(creditor);
@@ -30,7 +32,8 @@ public class ConverterService {
     }
 
     Debt soloDebt(Product product) {
-        return debtFor(product.getPrice(), product.getCreditor(), product.getDebtor(), 1);
+        //todo User.getUserOf
+        return debtFor(product.getPrice(), User.getUserOf(product.getCreditor()), User.getUserOf(product.getDebtor()), 1);
     }
 
     List<Debt> mergeDebts(List<Debt> debts) {
@@ -62,15 +65,15 @@ public class ConverterService {
     }
 
     private boolean mergableDebts(Debt d1, Debt d2) {
-        String d1C = d1.getCreditor();
-        String d1D = d1.getDebtor();
-        String d2C = d2.getCreditor();
-        String d2D = d2.getDebtor();
+        String d1C = d1.getCreditor().toString();
+        String d1D = d1.getDebtor().toString();
+        String d2C = d2.getCreditor().toString();
+        String d2D = d2.getDebtor().toString();
 
         return (d1C.equals(d2C) && d1D.equals(d2D)) || (d1C.equals(d2D) && d1D.equals(d2C));
     }
 
     public Debt soloBillDebt(Product product, String creditor) {
-        return debtFor(product.getPrice(), creditor, product.getDebtor(), 1);
+        return debtFor(product.getPrice(), User.getUserOf(creditor), User.getUserOf(product.getDebtor()), 1);
     }
 }

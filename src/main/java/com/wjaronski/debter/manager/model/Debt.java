@@ -2,10 +2,7 @@ package com.wjaronski.debter.manager.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -23,13 +20,14 @@ public class Debt {
     @GeneratedValue
     private Long id;
 
-    //    @Column(name = "debtor", columnDefinition = "VARCHAR(50)")
-//    private User debtor;
-    private String debtor;
+    @ManyToOne
+    private User debtor;
+//    private String debtor;
 
     //    @Column(name = "creditor", columnDefinition = "VARCHAR(50)")
-//    private User creditor;
-    private String creditor;
+    @ManyToOne
+//    private String creditor;
+    private User creditor;
     @NotNull
     private Double amount;
 
@@ -49,20 +47,4 @@ public class Debt {
     public void reverseAmount() {
         amount *= -1;
     }
-
-//    public String  getDebtor() {
-//        return debtor.getName();
-//    }
-//
-//    public String getCreditor() {
-//        return creditor.getName();
-//    }
-//
-//    public void setDebtor(String  debtor) {
-//        this.debtor = new User(debtor);
-//    }
-//
-//    public void setCreditor(String creditor) {
-//        this.creditor = new User(creditor);
-//    }
 }

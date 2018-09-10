@@ -2,8 +2,12 @@ package com.wjaronski.debter.manager.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Wojciech Jaronski
@@ -11,18 +15,19 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "BILLS")
+@Table
 public class Bill {
     @Id
-    private Long id;
+    private Long billId;
 
     @OneToMany(mappedBy = "bill")
     private List<Product> products;
 
-    @ElementCollection
-    @CollectionTable(name = "Users", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "debtors")
-    private List<String> debtors;
+    //    @ElementCollection
+//    @CollectionTable(name = "users", joinColumns = @JoinColumn(name = "name"))
+//    @Column(name = "debtors")
+    @OneToMany
+    private List<User> debtors;
     private String creditor;
 
     public static Bill getBillOfProducts(List<Product> productList) {
@@ -31,7 +36,18 @@ public class Bill {
         return bill;
     }
 
-//    public String  getCreditor() {
+    public List<String> getDebtors() {
+        return debtors.stream().map(User::getName).collect(Collectors.toList());
+    }
+
+    public void setDebtors(List<String> debtors) {
+        this.debtors = debtors.stream().map(User::getUserOf).collect(Collectors.toList());
+    }
+
+    public List<User> getDebtorsUsers() {
+        return debtors;
+    }
+    //    public String  getCreditor() {
 //        return creditor.getName();
 //    }
 //
