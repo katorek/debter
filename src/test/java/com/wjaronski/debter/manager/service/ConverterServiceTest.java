@@ -34,7 +34,7 @@ public class ConverterServiceTest {
         Product product = new Product();
         product.setPrice(0.0);
 
-        assertThat(converterService.splitToDebtors(product, "Creditor", Collections.singletonList("Debtor"))).hasSize(1);
+        assertThat(converterService.splitToDebtors(product, ("Creditor"), Collections.singletonList(("Debtor")))).hasSize(1);
     }
 
     @Test
@@ -44,25 +44,25 @@ public class ConverterServiceTest {
 
         int numberOfDebtors = 4;
 
-        List<String> debtors = IntStream.range(0, numberOfDebtors).mapToObj(i -> "" + i).collect(Collectors.toList());
+        List<String> debtors = IntStream.range(0, numberOfDebtors).mapToObj(i -> ("" + i)).collect(Collectors.toList());
 
-        List<Debt> splittedDebts = converterService.splitToDebtors(p1, "Creditor", debtors);
+        List<Debt> splittedDebts = converterService.splitToDebtors(p1, ("Creditor"), debtors);
 
         assertThat(splittedDebts).hasSize(4).allMatch(debt -> debt.getAmount().equals(p1.getPrice() / numberOfDebtors));
     }
 
     private Debt getExactlyTheSameDebt() {
         Debt debt = new Debt();
-        debt.setCreditor("Creditor");
-        debt.setDebtor("Debtor");
+        debt.setCreditor(("Creditor"));
+        debt.setDebtor(("Debtor"));
         debt.setAmount(0.0);
         return debt;
     }
 
     private Debt getUniqueDebt() {
         Debt debt = new Debt();
-        debt.setDebtor(UUID.randomUUID().toString());
-        debt.setCreditor(UUID.randomUUID().toString());
+        debt.setDebtor((UUID.randomUUID().toString()));
+        debt.setCreditor((UUID.randomUUID().toString()));
         debt.setAmount(0.0);
         return debt;
     }

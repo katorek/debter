@@ -32,7 +32,7 @@ public class BillServiceTest {
         int howManyDebtors = 3;
         int howManyProducts = 11;
 
-        List<String> debtors = IntStream.range(0, howManyDebtors).mapToObj(i -> "debtor_" + i).collect(Collectors.toList());
+        List<String> debtors = IntStream.range(0, howManyDebtors).mapToObj(i -> ("debtor_" + i)).collect(Collectors.toList());
         List<Product> products = IntStream.range(0, howManyProducts).mapToObj(this::sharableProduct).collect(Collectors.toList());
 
         Bill bill = new Bill();
@@ -51,7 +51,7 @@ public class BillServiceTest {
     private Product sharableProduct(int i) {
         Product p = new Product();
         p.setPrice(SHARABLE_PRODUCT_PRICE);
-        p.setDebtor("debtor_" + i);
+        p.setDebtor(("debtor_" + i));
         p.setEveryonePays(true);
         return p;
     }

@@ -36,10 +36,10 @@ public class DebtService {
     public void addDebt(final Debt debt) {
         Debt temp;
         if (debtExists(debt)) {
-            temp = getByCreditorAdnDebtor(debt.getCreditor(), debt.getDebtor());
+            temp = getByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
             temp.updateAmount(debt.getAmount());
         } else if (debtExists(Debt.getReversed(debt))) {
-            temp = getByCreditorAdnDebtor(debt.getDebtor(), debt.getCreditor());
+            temp = getByCreditorAndDebtor(debt.getDebtor(), debt.getCreditor());
             temp.updateAmount(debt.getAmount() * -1);
         } else {
             temp = debt;
@@ -49,18 +49,16 @@ public class DebtService {
 
     private void save(Debt debt) {
         if (debt.getAmount() < 0.0) {
-            //todo remove
             Optional<Debt> tempDebt = debtRepository.findByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
             if (tempDebt.isPresent()) {
                 debt.setId(tempDebt.get().getId());
             }
             debt = Debt.getReversed(debt);
-            debt.reverseAmount();
         }
         debtRepository.save(debt);
     }
 
-    private Debt getByCreditorAdnDebtor(String creditor, String debtor) {
+    private Debt getByCreditorAndDebtor(String creditor, String debtor) {
         return debtRepository.findByCreditorAndDebtor(creditor, debtor).orElse(null);
     }
 
@@ -74,5 +72,9 @@ public class DebtService {
 
     public List<Debt> findAllFor(String user) {
         return debtRepository.findAllByCreditorOrDebtor(user, user);
+    }
+
+    public void deleteAll() {
+        debtRepository.deleteAll();
     }
 }

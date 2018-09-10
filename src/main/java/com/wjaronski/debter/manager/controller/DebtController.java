@@ -38,6 +38,11 @@ public class DebtController {
         return debtService.findAllFor(user);
     }
 
+    @DeleteMapping("/debts")
+    public void deleteAll() {
+        debtService.deleteAll();
+    }
+
     @PostMapping("/bill")
     public void addBill(@RequestBody @Valid Bill bill) {
         debtService.addDebts(billService.billToDebtList(bill));
