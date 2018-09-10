@@ -23,13 +23,11 @@ public class Debt {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private User debtor;
-//    private String debtor;
-
-    //    @Column(name = "creditor", columnDefinition = "VARCHAR(50)")
-    @ManyToOne(cascade = CascadeType.ALL)
-//    private String creditor;
     private User creditor;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User debtor;
+
     @NotNull
     private Double amount;
 
@@ -44,9 +42,5 @@ public class Debt {
 
     public void updateAmount(Double amount) {
         this.amount += amount;
-    }
-
-    public void reverseAmount() {
-        amount *= -1;
     }
 }

@@ -16,10 +16,12 @@ import java.util.stream.Collectors;
 @Service
 public class ConverterService {
 
-    List<Debt> splitToDebtors(Product product, String creditor, List<String> debtors) {
-        return debtors.parallelStream()
-                //todo User.getUserOf
-                .map(debtor -> debtFor(product.getPrice(), User.getUserOf(creditor), User.getUserOf(debtor), debtors.size() + 1))
+    List<Debt> splitToDebtors(Product product, String creditorName, List<String> debtorsNames) {
+        User creditor = User.getUserOf(creditorName);
+
+
+        return debtorsNames.parallelStream()
+                .map(debtor -> debtFor(product.getPrice(), creditor, User.getUserOf(debtor), debtorsNames.size() + 1))
                 .collect(Collectors.toList());
     }
 
@@ -32,7 +34,6 @@ public class ConverterService {
     }
 
     Debt soloDebt(Product product) {
-        //todo User.getUserOf
         return debtFor(product.getPrice(), User.getUserOf(product.getCreditor()), User.getUserOf(product.getDebtor()), 1);
     }
 

@@ -38,20 +38,21 @@ public class DebtService {
 
     @Transactional
     public void addDebt(final Debt debt) {
-        Debt temp;
-        if (debtExists(debt)) {
-            temp = getByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
-            temp.updateAmount(debt.getAmount());
-        } else if (debtExists(Debt.getReversed(debt))) {
-            temp = getByCreditorAndDebtor(debt.getDebtor(), debt.getCreditor());
-            temp.updateAmount(debt.getAmount() * -1);
+        Debt debtToPersist;
+        if ((debtToPersist = debtExists(debt)) != null) {
+//            debtToPersist = getByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
+            debtToPersist.updateAmount(debt.getAmount());
+            saveDebt(debtToPersist);
+        } else if ((debtToPersist = debtExists(Debt.getReversed(debt))) != null) {
+//            debtToPersist = getByCreditorAndDebtor(debt.getDebtor(), debt.getCreditor());
+            debtToPersist.updateAmount(debt.getAmount());
+            saveDebt(debtToPersist);
         } else {
-            temp = debt;
+            saveDebt(debt);
         }
-        save(temp);
     }
 
-    private void save(Debt debt) {
+    private void saveDebt(Debt debt) {
         if (debt.getAmount() < 0.0) {
             Optional<Debt> tempDebt = findByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
             if (tempDebt.isPresent()) {
@@ -61,7 +62,11 @@ public class DebtService {
         }
         debt.setCreditor(userFromDb(debt.getCreditor()));
         debt.setDebtor(userFromDb(debt.getDebtor()));
-        debtRepository.save(debt);
+        if (debt.getAmount().equals(0.0)) {
+            debtRepository.deleteById(debt.getId());
+        } else {
+            debtRepository.save(debt);
+        }
     }
 
     private User userFromDb(User user) {
@@ -74,13 +79,13 @@ public class DebtService {
 //        Optional<User> optDebt = userRepository.getByName(debtor.getName());
 //
 //        if (!optCred.isPresent()) {
-//            creditor = userRepository.save(creditor);
+//            creditor = userRepository.saveDebt(creditor);
 //        }
 //        else{
 //            creditor = optCred.get();
 //        }
 //        if (!optDebt.isPresent()) {
-//            debtor = userRepository.save(debtor);
+//            debtor = userRepository.saveDebt(debtor);
 //        }else{
 //            debtor = optDebt.get();
 //        }
@@ -92,11 +97,11 @@ public class DebtService {
         return findByCreditorAndDebtor(creditor, debtor).orElse(null);
     }
 
-    private boolean debtExists(Debt d1) {
+    private Debt debtExists(Debt d1) {
 //        String creditor = d1.getCreditor().toString();
 //        String debtor = d1.getDebtor().toString();
 
-        return findByCreditorAndDebtor(d1.getCreditor(), d1.getDebtor()).isPresent();
+        return findByCreditorAndDebtor(d1.getCreditor(), d1.getDebtor()).orElse(null);
     }
 
     public List<Debt> findAll() {

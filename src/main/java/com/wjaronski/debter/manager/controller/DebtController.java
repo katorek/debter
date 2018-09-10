@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
  */
 
 @RestController
+@RequestMapping("/debts")
 public class DebtController {
 
     private final DebtService debtService;
@@ -26,12 +27,12 @@ public class DebtController {
         this.billService = billService;
     }
 
-    @GetMapping("/debts")
+    @GetMapping
     public List<DebtDto> getAll() {
         return debtService.findAll().stream().map(DebtDto::new).collect(Collectors.toList());
     }
 
-    @GetMapping("/debts/{user}")
+    @GetMapping("/{user}")
     public List<DebtDto> getDebtsForDebtor(@PathVariable String user,
                                            @RequestParam(name = "creditor", required = false, defaultValue = "false") boolean isCreditor,
                                            @RequestParam(name = "debtor", required = false, defaultValue = "false") boolean isDebtor) {
@@ -43,13 +44,19 @@ public class DebtController {
         return debts.stream().map(DebtDto::new).collect(Collectors.toList());
     }
 
-    @DeleteMapping("/debts")
+    @DeleteMapping
     public void deleteAll() {
         debtService.deleteAll();
     }
 
-    @PostMapping("/bill")
+    @PostMapping("/addBill")
     public void addBill(@RequestBody @Valid Bill bill) {
         debtService.addDebts(billService.billToDebtList(bill));
     }
+
+    @PostMapping
+    public void addDebt(@RequestBody @Valid Debt debt) {
+        debtService.addDebt(debt);
+    }
+
 }
