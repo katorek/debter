@@ -29,14 +29,13 @@ public class DebtController {
         return debtService.findAll();
     }
 
-    @GetMapping("/debtor/{debtorName}")
-    public List<Debt> getDebtsForDebtor(@PathVariable String debtorName) {
-        return debtService.findAllByDebtor(debtorName);
-    }
-
-    @GetMapping("/creditor/{creditorName}")
-    public List<Debt> detDebtsForCreditor(@PathVariable String creditorName) {
-        return debtService.findAllByCreditor(creditorName);
+    @GetMapping("/debts/{user}")
+    public List<Debt> getDebtsForDebtor(@PathVariable String user,
+                                        @RequestParam(name = "creditor", required = false, defaultValue = "false") boolean isCreditor,
+                                        @RequestParam(name = "debtor", required = false, defaultValue = "false") boolean isDebtor) {
+        if (isCreditor) return debtService.findAllByCreditor(user);
+        if (isDebtor) return debtService.findAllByDebtor(user);
+        return debtService.findAllFor(user);
     }
 
     @PostMapping("/bill")

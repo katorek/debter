@@ -18,4 +18,7 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
 
     List<Debt> findAllByDebtor(String debtor);
 
+    List<Debt> findAllByCreditorOrDebtor(String creditor, String debtor);
+
+    void deleteByCreditorAndDebtor(String creditor, String debtor);
 }

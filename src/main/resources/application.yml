@@ -9,10 +9,11 @@ spring:
   #    Heroku postgress
   #  datasource:
 
-  datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
+  #  datasource:
+  #    url: ${JDBC_DATABASE_URL}
+  #    username: ${JDBC_DATABASE_USERNAME}
+  #    password: ${JDBC_DATABASE_PASSWORD}
+  jackson.serialization.INDENT_OUTPUT: true
   jpa:
     hibernate:
       #      ddl-auto: create-drop

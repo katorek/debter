@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Wojciech Jaronski
@@ -33,17 +34,30 @@ public class DebtService {
 
     @Transactional
     public void addDebt(final Debt debt) {
+        Debt temp;
         if (debtExists(debt)) {
-            Debt temp = getByCreditorAdnDebtor(debt.getCreditor(), debt.getDebtor());
+            temp = getByCreditorAdnDebtor(debt.getCreditor(), debt.getDebtor());
             temp.updateAmount(debt.getAmount());
-            debtRepository.save(temp);
         } else if (debtExists(Debt.getReversed(debt))) {
-            Debt temp = getByCreditorAdnDebtor(debt.getDebtor(), debt.getCreditor());
+            temp = getByCreditorAdnDebtor(debt.getDebtor(), debt.getCreditor());
             temp.updateAmount(debt.getAmount() * -1);
-            debtRepository.save(temp);
         } else {
-            debtRepository.save(debt);
+            temp = debt;
         }
+        save(temp);
+    }
+
+    private void save(Debt debt) {
+        if (debt.getAmount() < 0.0) {
+            //todo remove
+            Optional<Debt> tempDebt = debtRepository.findByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
+            if (tempDebt.isPresent()) {
+                debt.setId(tempDebt.get().getId());
+            }
+            debt = Debt.getReversed(debt);
+            debt.reverseAmount();
+        }
+        debtRepository.save(debt);
     }
 
     private Debt getByCreditorAdnDebtor(String creditor, String debtor) {
@@ -56,5 +70,9 @@ public class DebtService {
 
     public List<Debt> findAll() {
         return debtRepository.findAll();
+    }
+
+    public List<Debt> findAllFor(String user) {
+        return debtRepository.findAllByCreditorOrDebtor(user, user);
     }
 }

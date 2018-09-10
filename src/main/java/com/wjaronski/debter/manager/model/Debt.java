@@ -32,4 +32,8 @@ public class Debt {
     public double updateAmount(Double amount) {
         return this.amount += amount;
     }
+
+    public void reverseAmount() {
+        amount *= -1;
+    }
 }
