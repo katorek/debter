@@ -37,7 +37,8 @@ public class DebtController {
                                            @RequestParam(name = "creditor", required = false, defaultValue = "false") boolean isCreditor,
                                            @RequestParam(name = "debtor", required = false, defaultValue = "false") boolean isDebtor) {
         List<Debt> debts;
-        if (isCreditor) debts = debtService.findAllByCreditor(user);
+        if (isCreditor && isDebtor) return null;
+        else if (isCreditor) debts = debtService.findAllByCreditor(user);
         else if (isDebtor) debts = debtService.findAllByDebtor(user);
         else debts = debtService.findAllFor(user);
 

@@ -40,11 +40,9 @@ public class DebtService {
     public void addDebt(final Debt debt) {
         Debt debtToPersist;
         if ((debtToPersist = debtExists(debt)) != null) {
-//            debtToPersist = getByCreditorAndDebtor(debt.getCreditor(), debt.getDebtor());
             debtToPersist.updateAmount(debt.getAmount());
             saveDebt(debtToPersist);
         } else if ((debtToPersist = debtExists(Debt.getReversed(debt))) != null) {
-//            debtToPersist = getByCreditorAndDebtor(debt.getDebtor(), debt.getCreditor());
             debtToPersist.updateAmount(debt.getAmount());
             saveDebt(debtToPersist);
         } else {
@@ -75,21 +73,6 @@ public class DebtService {
     }
 
     private Optional<Debt> findByCreditorAndDebtor(User creditor, User debtor) {
-//        Optional<User> optCred = userRepository.getByName(creditor.getName());
-//        Optional<User> optDebt = userRepository.getByName(debtor.getName());
-//
-//        if (!optCred.isPresent()) {
-//            creditor = userRepository.saveDebt(creditor);
-//        }
-//        else{
-//            creditor = optCred.get();
-//        }
-//        if (!optDebt.isPresent()) {
-//            debtor = userRepository.saveDebt(debtor);
-//        }else{
-//            debtor = optDebt.get();
-//        }
-
         return debtRepository.findByCreditorAndDebtor(creditor.getName(), debtor.getName());
     }
 
@@ -98,8 +81,6 @@ public class DebtService {
     }
 
     private Debt debtExists(Debt d1) {
-//        String creditor = d1.getCreditor().toString();
-//        String debtor = d1.getDebtor().toString();
 
         return findByCreditorAndDebtor(d1.getCreditor(), d1.getDebtor()).orElse(null);
     }
@@ -109,7 +90,7 @@ public class DebtService {
     }
 
     public List<Debt> findAllFor(String user) {
-        return debtRepository.findAllByCreditorOrDebtor(user, user);
+        return debtRepository.findAllDebtsForUser(user);
     }
 
     public void deleteAll() {
