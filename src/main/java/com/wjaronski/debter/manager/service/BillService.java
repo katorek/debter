@@ -3,11 +3,9 @@ package com.wjaronski.debter.manager.service;
 import com.wjaronski.debter.manager.model.Bill;
 import com.wjaronski.debter.manager.model.Debt;
 import com.wjaronski.debter.manager.model.Product;
-import com.wjaronski.debter.manager.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -16,11 +14,11 @@ import java.util.List;
 @Service
 public class BillService {
     private final ConverterService converterService;
-    private final UserService userService;
+//    private final UserService userService;
 
-    public BillService(ConverterService converterService, UserService userService) {
+    public BillService(ConverterService converterService/*, UserService userService*/) {
         this.converterService = converterService;
-        this.userService = userService;
+        /*this.userService = userService;*/
     }
 
     public List<Debt> billToDebtList(Bill bill) {
@@ -38,21 +36,21 @@ public class BillService {
 
         products.stream().filter(p -> !p.getEveryonePays()).map(p -> converterService.soloBillDebt(p, bill.getCreditor())).forEach(debts::add);
 
-        debts = converterService.mergeDebts(debts);
+        return converterService.mergeDebts(debts);
 
-        HashSet<User> users = new HashSet<>();
+        /*HashSet<User> users = new HashSet<>();
         debts.stream().forEach(debt -> {
             users.add(debt.getCreditor());
             users.add(debt.getDebtor());
-        });
+        });*/
 
-        users.forEach(userService::save);
+        /*users.forEach(userService::save);*/
 
-        return debts;
+        /*return debts;*/
     }
 
-    private void saveUsersFromBill(Bill bill) {
+    /*private void saveUsersFromBill(Bill bill) {
         userService.save(bill.getCreditor());
         bill.getDebtorsUsers().parallelStream().forEach(userService::save);
-    }
+    }*/
 }

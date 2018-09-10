@@ -1,5 +1,6 @@
 package com.wjaronski.debter.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
  */
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "PRODUCTS")
 public class Product {
@@ -26,11 +28,4 @@ public class Product {
     @JoinColumn(name = "billId")
     private Bill bill;
 
-//    public String getDebtor() {
-//        return debtor.getName();
-//    }
-
-//    public String getCreditor() {
-//        return creditor.getName();
-//    }
 }

@@ -1,5 +1,6 @@
 package com.wjaronski.debter.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,19 +14,20 @@ import javax.validation.constraints.NotNull;
 //@Table(uniqueConstraints = {
 //        @UniqueConstraint(columnNames = {"debtor", "creditor"})
 //})
-@Table
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Table(name = "debts")
 @Data
 public class Debt {
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User debtor;
 //    private String debtor;
 
     //    @Column(name = "creditor", columnDefinition = "VARCHAR(50)")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
 //    private String creditor;
     private User creditor;
     @NotNull

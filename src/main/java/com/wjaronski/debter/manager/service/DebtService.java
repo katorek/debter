@@ -59,18 +59,33 @@ public class DebtService {
             }
             debt = Debt.getReversed(debt);
         }
+        debt.setCreditor(userFromDb(debt.getCreditor()));
+        debt.setDebtor(userFromDb(debt.getDebtor()));
         debtRepository.save(debt);
     }
 
+    private User userFromDb(User user) {
+        return userRepository.getByName(user.getName())
+                .orElseGet(() -> userRepository.save(user));
+    }
+
     private Optional<Debt> findByCreditorAndDebtor(User creditor, User debtor) {
-        Optional<User> optCred = userRepository.getByName(creditor.getName());
-        Optional<User> optDebt = userRepository.getByName(debtor.getName());
+//        Optional<User> optCred = userRepository.getByName(creditor.getName());
+//        Optional<User> optDebt = userRepository.getByName(debtor.getName());
+//
+//        if (!optCred.isPresent()) {
+//            creditor = userRepository.save(creditor);
+//        }
+//        else{
+//            creditor = optCred.get();
+//        }
+//        if (!optDebt.isPresent()) {
+//            debtor = userRepository.save(debtor);
+//        }else{
+//            debtor = optDebt.get();
+//        }
 
-        if (!optCred.isPresent()) creditor = userRepository.save(creditor);
-        if (!optDebt.isPresent()) debtor = userRepository.save(debtor);
-
-
-        return debtRepository.findByCreditorAndDebtor(creditor, debtor);
+        return debtRepository.findByCreditorAndDebtor(creditor.getName(), debtor.getName());
     }
 
     private Debt getByCreditorAndDebtor(User creditor, User debtor) {

@@ -1,11 +1,9 @@
 package com.wjaronski.debter.manager.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,19 +13,19 @@ import java.util.stream.Collectors;
 
 @Data
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table
 public class Bill {
     @Id
     private Long billId;
 
-    @OneToMany(mappedBy = "bill")
+    @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
     private List<Product> products;
 
-    //    @ElementCollection
-//    @CollectionTable(name = "users", joinColumns = @JoinColumn(name = "name"))
-//    @Column(name = "debtors")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<User> debtors;
+
+    @Transient
     private String creditor;
 
     public static Bill getBillOfProducts(List<Product> productList) {
@@ -47,11 +45,5 @@ public class Bill {
     public List<User> getDebtorsUsers() {
         return debtors;
     }
-    //    public String  getCreditor() {
-//        return creditor.getName();
-//    }
-//
-//    public void setCreditor(String creditor) {
-//        this.creditor = new User(creditor);
-//    }
+
 }

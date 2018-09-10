@@ -63,6 +63,11 @@
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.2.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.monitorjbl</groupId>
+			<artifactId>json-view</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 
         <!-- Postgres DB -->
 		<dependency>

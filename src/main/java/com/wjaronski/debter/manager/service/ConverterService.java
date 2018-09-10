@@ -19,7 +19,7 @@ public class ConverterService {
     List<Debt> splitToDebtors(Product product, String creditor, List<String> debtors) {
         return debtors.parallelStream()
                 //todo User.getUserOf
-                .map(debtor -> debtFor(product.getPrice(), User.getUserOf(creditor), User.getUserOf(debtor), debtors.size()))
+                .map(debtor -> debtFor(product.getPrice(), User.getUserOf(creditor), User.getUserOf(debtor), debtors.size() + 1))
                 .collect(Collectors.toList());
     }
 

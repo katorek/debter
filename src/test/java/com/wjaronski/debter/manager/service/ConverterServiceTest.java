@@ -49,7 +49,7 @@ public class ConverterServiceTest {
 
         List<Debt> splittedDebts = converterService.splitToDebtors(p1, ("Creditor"), debtors);
 
-        assertThat(splittedDebts).hasSize(4).allMatch(debt -> debt.getAmount().equals(p1.getPrice() / numberOfDebtors));
+        assertThat(splittedDebts).hasSize(4).allMatch(debt -> debt.getAmount().equals(p1.getPrice() / (numberOfDebtors + 1)));
     }
 
     private Debt getExactlyTheSameDebt() {
