@@ -6,12 +6,13 @@ import com.wjaronski.debter.manager.api.domain.dto.DebtDto;
 import com.wjaronski.debter.manager.api.service.BillService;
 import com.wjaronski.debter.manager.api.service.DebtService;
 import com.wjaronski.debter.manager.web.controller.dto.SimpleDebt;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
+//import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * Created by Wojciech Jaronski
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/debts")
-@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('FACEBOOK_USER')")
+//@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('FACEBOOK_USER')")
 public class DebtController {
 
     private final DebtService debtService;
