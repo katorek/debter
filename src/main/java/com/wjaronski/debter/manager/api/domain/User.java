@@ -32,7 +32,7 @@ public class User {
     }
 
     public enum Role {
-        USER, ADMIN
+        USER, ADMIN, FACEBOOK_USER
     }
 
     @Override

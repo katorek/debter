@@ -1,0 +1,18 @@
+spring:
+  jackson.serialization.INDENT_OUTPUT: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  h2.console:
+    enabled: true
+    path: /h2
+server:
+  port: 9999
+logging:
+  level:
+    com.wjaronski.debter: debug
+# Disables printing error "Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented." at start
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+
+spring.social.facebook.appId:
+spring.social.facebook.appSecret:

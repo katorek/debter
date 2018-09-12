@@ -4,6 +4,7 @@ import com.wjaronski.debter.manager.api.domain.Debt;
 import com.wjaronski.debter.manager.api.domain.User;
 import com.wjaronski.debter.manager.api.repository.DebtRepository;
 import com.wjaronski.debter.manager.api.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -71,7 +72,8 @@ public class DebtService {
 
     private User userFromDb(User user) {
         return userRepository.getByName(user.getName())
-                .orElseGet(() -> userRepository.save(user));
+                .orElseThrow(() -> new UsernameNotFoundException(user.getName()));
+//                .orElseGet(() -> userRepository.save(user));
     }
 
     private Optional<Debt> findByCreditorAndDebtor(User creditor, User debtor) {

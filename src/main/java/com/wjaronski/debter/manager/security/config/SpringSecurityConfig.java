@@ -12,9 +12,23 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+//import org.springframework.social.connect.ConnectionFactoryLocator;
+//import org.springframework.social.connect.UsersConnectionRepository;
+//import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
+
 @EnableWebSecurity
 @Configuration
+//@ComponentScan(basePackages = {"com.wjaronski.debter.manager.security.service"})
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+//    @Autowired
+//    private ConnectionFactoryLocator connectionFactoryLocator;
+//
+//    @Autowired
+//    private UsersConnectionRepository usersConnectionRepository;
+//
+//    @Autowired
+//    private FacebookConnectionSignup facebookConnectionSignup;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
@@ -26,19 +40,23 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/info", "/health").permitAll()
                 .anyRequest().fullyAuthenticated();
+
+
 //        http
+//                .csrf().disable()
 //                .authorizeRequests()
-//                    .antMatchers("/css/**", "/index").permitAll()
-//                    .antMatchers("/debts/**").hasRole("USER")
-//                    .and()
-//                .formLogin().loginPage("/login").failureUrl("/login-error");
+//                .antMatchers("/login*").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin().loginPage("/login").permitAll()
+//                .and()
+//                .logout();
+
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder);
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -56,13 +74,24 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(11);
     }
 
+//    @Bean
+//    public ProviderSignInController providerSignInController() {
+//        ((InMemoryUsersConnectionRepository) usersConnectionRepository)
+//                .setConnectionSignUp(facebookConnectionSignup);
+//
+//        return new ProviderSignInController(
+//                connectionFactoryLocator,
+//                usersConnectionRepository,
+//                new FacebookSignInAdapter());
+//    }
 
-
-    /*@Autowired
+    /*
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication().
 //                .withUser(User.withUserDetails(CustomUserPrincipal));// User.withDefaultPasswordEncoder().username("user").password("password").roles("USER"));
                 .withUser("admin");// User.withDefaultPasswordEncoder().username("user").password("password").roles("USER"));
-    }*/
+    }
+    */
 }
