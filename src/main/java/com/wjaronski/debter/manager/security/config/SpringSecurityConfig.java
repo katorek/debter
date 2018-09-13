@@ -90,8 +90,8 @@
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 //        auth
 //                .inMemoryAuthentication().
-////                .withUser(User.withUserDetails(CustomUserPrincipal));// User.withDefaultPasswordEncoder().username("user").password("password").roles("USER"));
-//                .withUser("admin");// User.withDefaultPasswordEncoder().username("user").password("password").roles("USER"));
+////                .withUser(UserBean.withUserDetails(CustomUserPrincipal));// UserBean.withDefaultPasswordEncoder().username("user").password("password").roles("USER"));
+//                .withUser("admin");// UserBean.withDefaultPasswordEncoder().username("user").password("password").roles("USER"));
 //    }
 //    */
 //}

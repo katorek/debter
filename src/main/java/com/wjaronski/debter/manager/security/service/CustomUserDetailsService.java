@@ -17,10 +17,10 @@
 //
 //    @Override
 //    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return userRepository.getByName(username).map(user -> CurrentUser.builder()
-//                .login(user.getName())
+//        return userRepository.getByLogin(username).map(user -> CurrentUser.builder()
+//                .login(user.getLogin())
 //                .passwordHash(user.getPasswordHash())
-//                .role("ROLE_" + user.getRole().name())
+//                .role("ROLE_" + user.getRole().login())
 //                .build())
 //                .orElseThrow(() -> new UsernameNotFoundException(username));
 //    }

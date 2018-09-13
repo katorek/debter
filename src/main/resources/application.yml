@@ -6,9 +6,11 @@ spring:
   h2.console:
     enabled: true
     path: /h2
-  social.facebook:
-    appId: 2165516750160183
-    appSecret: 93551df28b47e8f0e763aac8522a2a74
+  profiles:
+    active: application
+#  social.facebook:
+#    appId: 2165516750160183
+#    appSecret: 93551df28b47e8f0e763aac8522a2a74
 server:
   port: 9999
 logging:
@@ -16,3 +18,7 @@ logging:
     com.wjaronski.debter: debug
 # Disables printing error "Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented." at start
     org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+
+
+spring.social.facebook.appId: 2165516750160183
+spring.social.facebook.appSecret: 93551df28b47e8f0e763aac8522a2a74

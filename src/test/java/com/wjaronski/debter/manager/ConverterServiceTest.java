@@ -2,7 +2,7 @@
 //
 //import com.wjaronski.debter.manager.api.model.Debt;
 //import com.wjaronski.debter.manager.api.model.Product;
-//import com.wjaronski.debter.manager.api.model.User;
+//import com.wjaronski.debter.manager.api.model.UserBean;
 //import org.junit.Before;
 //import org.junit.Test;
 //
@@ -54,16 +54,16 @@
 //
 //    private Debt getExactlyTheSameDebt() {
 //        Debt debt = new Debt();
-//        debt.setCreditor(User.getUserOf("Creditor"));
-//        debt.setDebtor(User.getUserOf("Debtor"));
+//        debt.setCreditor(UserBean.getUserOf("Creditor"));
+//        debt.setDebtor(UserBean.getUserOf("Debtor"));
 //        debt.setAmount(0.0);
 //        return debt;
 //    }
 //
 //    private Debt getUniqueDebt() {
 //        Debt debt = new Debt();
-//        debt.setDebtor(User.getUserOf(UUID.randomUUID().toString()));
-//        debt.setCreditor(User.getUserOf(UUID.randomUUID().toString()));
+//        debt.setDebtor(UserBean.getUserOf(UUID.randomUUID().toString()));
+//        debt.setCreditor(UserBean.getUserOf(UUID.randomUUID().toString()));
 //        debt.setAmount(0.0);
 //        return debt;
 //    }

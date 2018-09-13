@@ -25,7 +25,7 @@ public class Bill {
 
     //    @OneToMany(cascade = CascadeType.ALL)
     @OneToMany
-    private List<User> debtors;
+    private List<UserBean> debtors;
 
     @Transient
     private String creditor;
@@ -37,14 +37,14 @@ public class Bill {
     }
 
     public List<String> getDebtors() {
-        return debtors.stream().map(User::getName).collect(Collectors.toList());
+        return debtors.stream().map(UserBean::getLogin).collect(Collectors.toList());
     }
 
     public void setDebtors(List<String> debtors) {
-        this.debtors = debtors.stream().map(User::getUserOf).collect(Collectors.toList());
+        this.debtors = debtors.stream().map(UserBean::getUserOf).collect(Collectors.toList());
     }
 
-    public List<User> getDebtorsUsers() {
+    public List<UserBean> getDebtorsUsers() {
         return debtors;
     }
 

@@ -12,31 +12,32 @@ import javax.validation.constraints.NotNull;
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "users")
-public class User {
+public class UserBean {
 
-    @Column(unique = true, nullable = false)
-    private String name;
 
     @Id
     @GeneratedValue
     private Long id;
+    @Column(unique = true, nullable = false)
+    private String login;
     private String passwordHash;
     @NotNull
     private Role role;
 
-    @Column(unique = true)
+    private String provider;
     private String email;
 
-    public static User getUserOf(String name) {
-        return User.builder().name(name).build();
+    public static UserBean getUserOf(String login) {
+        return UserBean.builder().login(login).build();
     }
 
     public enum Role {
         USER, ADMIN, FACEBOOK_USER
     }
 
+
     @Override
     public String toString() {
-        return name;
+        return login;
     }
 }

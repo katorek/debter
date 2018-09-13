@@ -1,7 +1,7 @@
 package com.wjaronski.debter.manager.web.controller.dto;
 
 import com.wjaronski.debter.manager.api.domain.Debt;
-import com.wjaronski.debter.manager.api.domain.User;
+import com.wjaronski.debter.manager.api.domain.UserBean;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -17,8 +17,8 @@ public class SimpleDebt {
 
     public Debt toDebt() {
         Debt debt = new Debt();
-        debt.setDebtor(User.getUserOf(debtor));
-        debt.setCreditor(User.getUserOf(creditor));
+        debt.setDebtor(UserBean.getUserOf(debtor));
+        debt.setCreditor(UserBean.getUserOf(creditor));
         debt.setAmount(amount);
         return debt;
     }

@@ -1,9 +1,9 @@
 package com.wjaronski.debter.manager.api.service;
 
 import com.wjaronski.debter.manager.api.domain.Debt;
-import com.wjaronski.debter.manager.api.domain.User;
+import com.wjaronski.debter.manager.api.domain.UserBean;
 import com.wjaronski.debter.manager.api.repository.DebtRepository;
-import com.wjaronski.debter.manager.api.repository.UserRepository;
+import com.wjaronski.debter.manager.api.repository.UserBeanRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,10 +19,10 @@ import java.util.Optional;
 @Service
 public class DebtService {
     private final DebtRepository debtRepository;
-    private final UserRepository userRepository;
+    private final UserBeanRepository userRepository;
     private final DebtOptimizer debtOptimizer;
 
-    public DebtService(DebtRepository debtRepository, UserRepository userRepository, DebtOptimizer debtOptimizer) {
+    public DebtService(DebtRepository debtRepository, UserBeanRepository userRepository, DebtOptimizer debtOptimizer) {
         this.debtRepository = debtRepository;
         this.userRepository = userRepository;
         this.debtOptimizer = debtOptimizer;
@@ -71,17 +71,17 @@ public class DebtService {
         }
     }
 
-    private User userFromDb(User user) {
-        return userRepository.getByName(user.getName())
-//                .orElseThrow(() -> new UsernameNotFoundException(user.getName()));
-                .orElseGet(() -> userRepository.save(user));
+    private UserBean userFromDb(UserBean userBean) {
+        return userRepository.getByLogin(userBean.getLogin())
+//                .orElseThrow(() -> new UsernameNotFoundException(userBean.getLogin()));
+                .orElseGet(() -> userRepository.save(userBean));
     }
 
-    private Optional<Debt> findByCreditorAndDebtor(User creditor, User debtor) {
-        return debtRepository.findByCreditorAndDebtor(creditor.getName(), debtor.getName());
+    private Optional<Debt> findByCreditorAndDebtor(UserBean creditor, UserBean debtor) {
+        return debtRepository.findByCreditorAndDebtor(creditor.getLogin(), debtor.getLogin());
     }
 
-    private Debt getByCreditorAndDebtor(User creditor, User debtor) {
+    private Debt getByCreditorAndDebtor(UserBean creditor, UserBean debtor) {
         return findByCreditorAndDebtor(creditor, debtor).orElse(null);
     }
 

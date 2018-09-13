@@ -39,12 +39,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
-        <!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -152,10 +150,18 @@
             <artifactId>font-awesome</artifactId>
             <version>4.7.0</version>
         </dependency>
+        <!--
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.0.7.RELEASE</version>
+            &lt;!&ndash;<scope>compile</scope>&ndash;&gt;
+        </dependency>
+        -->
 
         <!--
         FACEBOOK CONNECTION DEPENDENCIES
-        http://www.littlebigextra.com/part-1-authorising-user-using-spring-social-google-facebook-and-linkedin-and-spring-security/
+        http://www.littlebigextra.com/part-1-authorising-userBean-using-spring-social-google-facebook-and-linkedin-and-spring-security/
         -->
         <!--
         <dependency>

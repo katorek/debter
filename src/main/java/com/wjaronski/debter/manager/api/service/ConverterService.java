@@ -2,7 +2,7 @@ package com.wjaronski.debter.manager.api.service;
 
 import com.wjaronski.debter.manager.api.domain.Debt;
 import com.wjaronski.debter.manager.api.domain.Product;
-import com.wjaronski.debter.manager.api.domain.User;
+import com.wjaronski.debter.manager.api.domain.UserBean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 public class ConverterService {
 
     List<Debt> splitToDebtors(Product product, String creditorName, List<String> debtorsNames) {
-        User creditor = User.getUserOf(creditorName);
+        UserBean creditor = UserBean.getUserOf(creditorName);
 
 
         return debtorsNames.parallelStream()
-                .map(debtor -> debtFor(product.getPrice(), creditor, User.getUserOf(debtor), debtorsNames.size() + 1))
+                .map(debtor -> debtFor(product.getPrice(), creditor, UserBean.getUserOf(debtor), debtorsNames.size() + 1))
                 .collect(Collectors.toList());
     }
 
-    private Debt debtFor(double price, User creditor, User debtor, int divideBy) {
+    private Debt debtFor(double price, UserBean creditor, UserBean debtor, int divideBy) {
         Debt debt = new Debt();
         debt.setAmount(price / divideBy);
         debt.setCreditor(creditor);
@@ -34,7 +34,7 @@ public class ConverterService {
     }
 
     Debt soloDebt(Product product) {
-        return debtFor(product.getPrice(), User.getUserOf(product.getCreditor()), User.getUserOf(product.getDebtor()), 1);
+        return debtFor(product.getPrice(), UserBean.getUserOf(product.getCreditor()), UserBean.getUserOf(product.getDebtor()), 1);
     }
 
     List<Debt> mergeDebts(List<Debt> debts) {
@@ -75,6 +75,6 @@ public class ConverterService {
     }
 
     public Debt soloBillDebt(Product product, String creditor) {
-        return debtFor(product.getPrice(), User.getUserOf(creditor), User.getUserOf(product.getDebtor()), 1);
+        return debtFor(product.getPrice(), UserBean.getUserOf(creditor), UserBean.getUserOf(product.getDebtor()), 1);
     }
 }

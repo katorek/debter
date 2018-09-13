@@ -1,6 +1,6 @@
 //package com.wjaronski.debter.manager.security.service;
 //
-//import com.wjaronski.debter.manager.api.domain.User;
+//import com.wjaronski.debter.manager.api.domain.UserBean;
 //import com.wjaronski.debter.manager.api.repository.UserRepository;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,13 +13,13 @@
 //public class UserInitializer {
 //
 //    public UserInitializer(UserRepository repository, PasswordEncoder encoder) {
-//        User admin = User.builder().name("admin")
+//        UserBean admin = UserBean.builder().login("admin")
 //                .passwordHash(encoder.encode("admin"))
-//                .role(User.Role.ADMIN)
+//                .role(UserBean.Role.ADMIN)
 //                .build();
-//        User plain = User.builder().name("user")
+//        UserBean plain = UserBean.builder().login("user")
 //                .passwordHash(encoder.encode("user"))
-//                .role(User.Role.USER)
+//                .role(UserBean.Role.USER)
 //                .build();
 //        Stream.of(admin, plain)
 //                .forEach(user -> {

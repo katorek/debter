@@ -24,11 +24,11 @@ public class Debt {
 
     @ManyToOne
 //    @NotNull
-    private User creditor;
+    private UserBean creditor;
 
     @ManyToOne
 //    @NotNull
-    private User debtor;
+    private UserBean debtor;
 
     @NotNull
     private Double amount;

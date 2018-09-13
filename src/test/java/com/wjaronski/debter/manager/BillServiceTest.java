@@ -27,7 +27,7 @@
 //    public void before() {
 //        MockitoAnnotations.initMocks(this);
 //        billService = new BillService(new ConverterService()/*, userService*/);
-//        /*when(userService.save(any(User.class))).thenReturn(null);
+//        /*when(userService.save(any(UserBean.class))).thenReturn(null);
 //        when(userService.save(anyString())).thenReturn(null);*/
 //    }
 //

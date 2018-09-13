@@ -16,7 +16,7 @@ public class DebtOptimizer {
         this.debtRepository = debtRepository;
     }
 
-    //    @Transactional
+    @Transactional
     public List<Debt> optimize(List<Debt> debts) {
         boolean changed = true;
         while (changed) {
