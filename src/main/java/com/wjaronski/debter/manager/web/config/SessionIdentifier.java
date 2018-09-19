@@ -1,14 +1,6 @@
 package com.wjaronski.debter.manager.web.config;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.social.UserIdSource;
-import org.springframework.social.config.annotation.SocialConfigurerAdapter;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-
-import java.util.UUID;
-
-
+/*
 @Configuration
 public class SessionIdentifier extends SocialConfigurerAdapter {
 
@@ -29,4 +21,4 @@ public class SessionIdentifier extends SocialConfigurerAdapter {
             return uuid;
         }
     }
-}
+}*/

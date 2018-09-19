@@ -36,15 +36,15 @@ public class DebtController {
         return debtService.findAll().stream().map(DebtDto::new).collect(Collectors.toList());
     }
 
-    @GetMapping("/{user}")
-    public List<DebtDto> getDebtsForDebtor(@PathVariable String user,
+    @GetMapping("/{userId}")
+    public List<DebtDto> getDebtsForDebtor(@PathVariable String userId,
                                            @RequestParam(name = "creditor", required = false, defaultValue = "false") boolean isCreditor,
                                            @RequestParam(name = "debtor", required = false, defaultValue = "false") boolean isDebtor) {
         List<Debt> debts;
         if (isCreditor && isDebtor) return null;
-        else if (isCreditor) debts = debtService.findAllByCreditor(user);
-        else if (isDebtor) debts = debtService.findAllByDebtor(user);
-        else debts = debtService.findAllFor(user);
+        else if (isCreditor) debts = debtService.findAllByCreditor(userId);
+        else if (isDebtor) debts = debtService.findAllByDebtor(userId);
+        else debts = debtService.findAllFor(userId);
 
         return debts.stream().map(DebtDto::new).collect(Collectors.toList());
     }
