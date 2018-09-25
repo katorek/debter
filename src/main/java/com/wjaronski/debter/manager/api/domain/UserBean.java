@@ -1,11 +1,15 @@
 package com.wjaronski.debter.manager.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.wjaronski.debter.manager.api.facebook.dto.Profile;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Map;
 
 @Builder
 @Data
@@ -14,30 +18,43 @@ import javax.validation.constraints.NotNull;
 @Table(name = "users")
 public class UserBean {
 
-
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     private Long id;
+
     @Column(unique = true, nullable = false)
-    private String login;
+    private String name;
     private String passwordHash;
-    @NotNull
-    private Role role;
 
     private String provider;
     private String email;
+    private String role;
 
     public static UserBean getUserOf(String login) {
-        return UserBean.builder().login(login).build();
+        return UserBean.builder().name(login).build();
     }
 
-    public enum Role {
-        USER, ADMIN, FACEBOOK_USER
+    public static UserBean getUserOf(Map map) {
+        return UserBean.builder()
+                .id(Long.valueOf((String) map.get("id")))
+                .name((String) map.get("name"))
+                .email((String) map.get("email"))
+                .role((String) map.get("role"))
+                .build();
+    }
+
+    public static UserBean getUserOf(Profile profile) {
+        return UserBean.builder()
+                .id(Long.valueOf(profile.getId()))
+                .name(profile.getName())
+                .email(profile.getEmail())
+                .role(profile.getRole())
+                .build();
     }
 
 
     @Override
     public String toString() {
-        return login;
+        return name;
     }
 }

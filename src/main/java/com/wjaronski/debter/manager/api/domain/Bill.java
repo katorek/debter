@@ -37,7 +37,7 @@ public class Bill {
     }
 
     public List<String> getDebtors() {
-        return debtors.stream().map(UserBean::getLogin).collect(Collectors.toList());
+        return debtors.stream().map(UserBean::getName).collect(Collectors.toList());
     }
 
     public void setDebtors(List<String> debtors) {

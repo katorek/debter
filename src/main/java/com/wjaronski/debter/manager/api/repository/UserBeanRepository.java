@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+//@RepositoryRestResource(exported = false)
 public interface UserBeanRepository extends JpaRepository<UserBean, Long> {
-    Optional<UserBean> getByLogin(String login);
-//    UserBean findByUsername(String username);
+    Optional<UserBean> getByName(String name);
 }

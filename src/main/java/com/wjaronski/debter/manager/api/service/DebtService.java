@@ -10,8 +10,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-//import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 /**
  * Created by Wojciech Jaronski
  */
@@ -69,16 +67,17 @@ public class DebtService {
         } else {
             debtRepository.save(debt);
         }
+        optimizeDebts();
     }
 
     private UserBean userFromDb(UserBean userBean) {
-        return userRepository.getByLogin(userBean.getLogin())
-//                .orElseThrow(() -> new UsernameNotFoundException(userBean.getLogin()));
+        return userRepository.getByName(userBean.getName())
+//                .orElseThrow(() -> new UsernameNotFoundException(userBean.getName()));
                 .orElseGet(() -> userRepository.save(userBean));
     }
 
     private Optional<Debt> findByCreditorAndDebtor(UserBean creditor, UserBean debtor) {
-        return debtRepository.findByCreditorAndDebtor(creditor.getLogin(), debtor.getLogin());
+        return debtRepository.findByCreditorAndDebtor(creditor.getName(), debtor.getName());
     }
 
     private Debt getByCreditorAndDebtor(UserBean creditor, UserBean debtor) {
@@ -102,6 +101,7 @@ public class DebtService {
         debtRepository.deleteAll();
     }
 
+    @Transactional
     public List<Debt> optimizeDebts() {
         List<Debt> debts = debtRepository.findAll();
         return debtOptimizer.optimize(debts);

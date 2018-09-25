@@ -1,6 +1,7 @@
 package com.wjaronski.debter.manager.security.config;
 
-import com.wjaronski.debter.manager.api.facebook.Facebook;
+import com.wjaronski.debter.manager.api.facebook.FacebookProfileProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
@@ -10,12 +11,13 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.context.annotation.RequestScope;
 
+@Slf4j
 @Configuration
 public class SocialConfig {
 
     @Bean
     @RequestScope
-    public Facebook facebook(OAuth2AuthorizedClientService clientService) {
+    public FacebookProfileProvider facebook(OAuth2AuthorizedClientService clientService) {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
         String accessToken = null;
@@ -29,7 +31,7 @@ public class SocialConfig {
                 accessToken = client.getAccessToken().getTokenValue();
             }
         }
-        return new Facebook(accessToken);
+        return new FacebookProfileProvider(accessToken);
     }
 
 }

@@ -12,17 +12,18 @@ import java.util.Optional;
  * Created by Wojciech Jaronski
  */
 
+//@RepositoryRestResource(exported = false)
 public interface DebtRepository extends JpaRepository<Debt, Long> {
-    @Query("select d from UserBean u1, UserBean u2, Debt d where u1.login=:creditor and u2.login=:debtor and d.creditor = u1.id and d.debtor=u2.id")
+    @Query("select d from UserBean u1, UserBean u2, Debt d where u1.name=:creditor and u2.name=:debtor and d.creditor = u1.id and d.debtor=u2.id")
     Optional<Debt> findByCreditorAndDebtor(@Param("creditor") String creditor, @Param("debtor") String debtor);
 
-    @Query("select d from UserBean u, Debt d where u.login=:user and (d.creditor = u.id or d.debtor = u.id)")
+    @Query("select d from UserBean u, Debt d where u.name=:user and (d.creditor = u.id or d.debtor = u.id)")
     List<Debt> findAllDebtsForUser(@Param("user") String user);
 
-    @Query("select d from UserBean u, Debt d where u.login=:creditor and d.creditor = u.id")
+    @Query("select d from UserBean u, Debt d where u.name=:creditor and d.creditor = u.id")
     List<Debt> findAllByCreditor(@Param("creditor") String creditor);
 
-    @Query("select d from UserBean u, Debt d where u.login=:debtor and d.debtor = u.id")
+    @Query("select d from UserBean u, Debt d where u.name=:debtor and d.debtor = u.id")
     List<Debt> findAllByDebtor(@Param("debtor") String debtor);
 
     void deleteByCreditorAndDebtor(String creditor, String debtor);

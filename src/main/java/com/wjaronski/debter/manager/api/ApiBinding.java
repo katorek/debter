@@ -1,13 +1,8 @@
 package com.wjaronski.debter.manager.api;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
 
 @Slf4j
 public abstract class ApiBinding {
@@ -24,29 +19,17 @@ public abstract class ApiBinding {
         }
     }
 
-    private ClientHttpRequestInterceptor
-    getBearerTokenInterceptor(String accessToken) {
-        ClientHttpRequestInterceptor interceptor =
-                new ClientHttpRequestInterceptor() {
-                    @Override
-                    public ClientHttpResponse intercept(HttpRequest request, byte[] bytes,
-                                                        ClientHttpRequestExecution execution) throws IOException {
-                        request.getHeaders().add("Authorization", "Bearer " + accessToken);
-                        log.info("{}", accessToken);
-                        return execution.execute(request, bytes);
-                    }
-                };
-        return interceptor;
+    private ClientHttpRequestInterceptor getBearerTokenInterceptor(String accessToken) {
+        return (request, bytes, execution) -> {
+            request.getHeaders().add("Authorization", "Bearer " + accessToken);
+            return execution.execute(request, bytes);
+        };
     }
 
     private ClientHttpRequestInterceptor getNoTokenInterceptor() {
-        return new ClientHttpRequestInterceptor() {
-            @Override
-            public ClientHttpResponse intercept(HttpRequest request, byte[] bytes,
-                                                ClientHttpRequestExecution execution) throws IOException {
-                throw new IllegalStateException(
-                        "Can't access the API without an access token");
-            }
+        return (request, bytes, execution) -> {
+            throw new IllegalStateException(
+                    "Can't access the API without an access token");
         };
     }
 

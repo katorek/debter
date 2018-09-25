@@ -2,7 +2,7 @@ spring:
   jackson.serialization.INDENT_OUTPUT: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   h2.console:
     enabled: true
     path: /h2
@@ -13,17 +13,18 @@ spring:
       client:
         registration:
           facebook:
-            client-id: -SECRET-
-            client-secret: -SECRET-
+            client-id: secret
+            client-secret: secret
+            redirect-host: localhost
             scope: email
-          resource:
-            userInfoUri: https://graph.facebook.com/me?fields=id,name,email
-#            scope: public_profile,email
-#            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,picture
+#            scope: email,user_friends
+        provider:
+          facebook:
+            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,friends
 server:
   port: 9999
 logging:
   level:
     com.wjaronski.debter: debug
-# Disables printing error "Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented." at start
+    # Disables printing error "Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented." at start
     org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR

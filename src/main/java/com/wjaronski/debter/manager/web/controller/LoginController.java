@@ -1,5 +1,6 @@
 package com.wjaronski.debter.manager.web.controller;
 
+import com.wjaronski.debter.manager.security.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ResolvableType;
 import org.springframework.http.HttpEntity;
@@ -26,11 +27,13 @@ public class LoginController {
     private static final String authorizationRequestBaseUri = "oauth2/authorization";
     private final OAuth2AuthorizedClientService authorizedClientService;
     private final ClientRegistrationRepository clientRegistrationRepository;
+    private final UserService userService;
     Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
-    public LoginController(OAuth2AuthorizedClientService authorizedClientService, ClientRegistrationRepository clientRegistrationRepository) {
+    public LoginController(OAuth2AuthorizedClientService authorizedClientService, ClientRegistrationRepository clientRegistrationRepository, UserService userService) {
         this.authorizedClientService = authorizedClientService;
         this.clientRegistrationRepository = clientRegistrationRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/oauth_login")
@@ -73,10 +76,9 @@ public class LoginController {
             ResponseEntity<Map> response = restTemplate
                     .exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
-            Object key;
-            log.info("User attributes: ");
-            userAttributes.forEach((k, v) -> log.info("{} {}", k.toString(), v.toString()));
             model.addAttribute("name", userAttributes.get("name"));
+
+//            userService.saveUser(userAttributes);
         }
 
         return "loginSuccess";

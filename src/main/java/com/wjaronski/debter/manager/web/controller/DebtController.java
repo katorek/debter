@@ -3,9 +3,13 @@ package com.wjaronski.debter.manager.web.controller;
 import com.wjaronski.debter.manager.api.domain.Bill;
 import com.wjaronski.debter.manager.api.domain.Debt;
 import com.wjaronski.debter.manager.api.domain.dto.DebtDto;
+import com.wjaronski.debter.manager.api.facebook.ProfileInfoService;
+import com.wjaronski.debter.manager.api.facebook.dto.Profile;
 import com.wjaronski.debter.manager.api.service.BillService;
 import com.wjaronski.debter.manager.api.service.DebtService;
 import com.wjaronski.debter.manager.web.controller.dto.SimpleDebt;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,26 +21,43 @@ import java.util.stream.Collectors;
 /**
  * Created by Wojciech Jaronski
  */
-
+@Slf4j
 @RestController
 @RequestMapping("/debts")
-//@PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('FACEBOOK_USER')")
+@PreAuthorize("isAuthenticated()")
 public class DebtController {
 
     private final DebtService debtService;
     private final BillService billService;
 
-    public DebtController(DebtService debtService, BillService billService) {
+    private final ProfileInfoService profileInfoService;
+
+    public DebtController(DebtService debtService, BillService billService, ProfileInfoService profileInfoService) {
         this.debtService = debtService;
         this.billService = billService;
+        this.profileInfoService = profileInfoService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
+    @PreAuthorize("isMember('administrators')")
     public List<DebtDto> getAll() {
+        Profile p = profileInfoService.getProfile();
+        log.info("Profile: {}", p);
+
         return debtService.findAll().stream().map(DebtDto::new).collect(Collectors.toList());
     }
 
+    @GetMapping
+    public List<DebtDto> getMyDebts() {
+        Profile currentUser = profileInfoService.getProfile();
+        return debtService.findAllFor(currentUser.getId())
+                .stream()
+                .map(DebtDto::new)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/{userId}")
+    @PreAuthorize("isMember('administrators')")
     public List<DebtDto> getDebtsForDebtor(@PathVariable String userId,
                                            @RequestParam(name = "creditor", required = false, defaultValue = "false") boolean isCreditor,
                                            @RequestParam(name = "debtor", required = false, defaultValue = "false") boolean isDebtor) {
@@ -46,10 +67,13 @@ public class DebtController {
         else if (isDebtor) debts = debtService.findAllByDebtor(userId);
         else debts = debtService.findAllFor(userId);
 
-        return debts.stream().map(DebtDto::new).collect(Collectors.toList());
+        return debts.stream()
+                .map(DebtDto::new)
+                .collect(Collectors.toList());
     }
 
     @DeleteMapping
+    @PreAuthorize("isMember('administrators')")
     public void deleteAll() {
         debtService.deleteAll();
     }
@@ -65,8 +89,9 @@ public class DebtController {
     }
 
     @GetMapping("/optimize")
-    public void optimizeDebts() {
-        debtService.optimizeDebts();
+    @PreAuthorize("isMember('administrators')")
+    public List<Debt> optimizeDebts() {
+        return debtService.optimizeDebts();
     }
 
 }

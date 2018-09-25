@@ -147,12 +147,12 @@
 
         <!--
         FACEBOOK CONNECTION DEPENDENCIES
-        http://www.littlebigextra.com/part-1-authorising-userBean-using-spring-social-google-facebook-and-linkedin-and-spring-security/
+        http://www.littlebigextra.com/part-1-authorising-userBean-using-spring-social-google-facebookProfileProvider-and-linkedin-and-spring-security/
         -->
         <!--
         <dependency>
             <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-facebook</artifactId>
+            <artifactId>spring-social-facebookProfileProvider</artifactId>
             <version>2.0.3.RELEASE</version>
         </dependency>
         -->
