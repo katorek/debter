@@ -1,6 +1,6 @@
 package com.wjaronski.debter.manager.security.config;
 
-import com.wjaronski.debter.manager.api.facebook.ProfileInfoService;
+import com.wjaronski.debter.manager.api.facebook.FacebookRoleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
@@ -15,19 +15,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends GlobalMethodSecurityConfiguration {
 
-    private final ProfileInfoService profileInfoService;
-
     @Autowired
-    public SpringSecurityConfig(ProfileInfoService profileInfoService) {
-        this.profileInfoService = profileInfoService;
-    }
+    private FacebookRoleProvider facebookRoleProvider;
+
+//    @Autowired
+//    public SpringSecurityConfig(ProfileInfoService profileInfoService) {
+//        this.profileInfoService = profileInfoService;
+//    }
 
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {
-        CustomMethodSecurityExpressionHandler expressionHandler =
-                new CustomMethodSecurityExpressionHandler(profileInfoService);
-        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator());
-        return expressionHandler;
+//        CustomMethodSecurityExpressionHandler expressionHandler =
+//                new CustomMethodSecurityExpressionHandler(profileInfoService);
+//        expressionHandler.setPermissionEvaluator(new CustomPermissionEvaluator());
+//        return expressionHandler;
+        return new CustomMethodSecurityExpressionHandler(facebookRoleProvider);
     }
 
     @Configuration

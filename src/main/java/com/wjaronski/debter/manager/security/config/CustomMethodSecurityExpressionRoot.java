@@ -1,7 +1,8 @@
 package com.wjaronski.debter.manager.security.config;
 
 import com.wjaronski.debter.manager.api.domain.UserBean;
-import com.wjaronski.debter.manager.api.facebook.ProfileInfoService;
+import com.wjaronski.debter.manager.api.facebook.FacebookRoleProvider;
+import com.wjaronski.debter.manager.api.facebook.dto.UserRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.expression.SecurityExpressionRoot;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
@@ -11,23 +12,23 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 @Slf4j
 public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot implements MethodSecurityExpressionOperations {
 
-    private ProfileInfoService profileInfoService;
+    private FacebookRoleProvider facebookRoleProvider;
 
     private Object filterObject;
     private Object returnObject;
 
-    CustomMethodSecurityExpressionRoot(Authentication authentication, ProfileInfoService profileInfoService) {
+    CustomMethodSecurityExpressionRoot(Authentication authentication, FacebookRoleProvider facebookRoleProvider) {
         super(authentication);
-        this.profileInfoService = profileInfoService;
+        this.facebookRoleProvider = facebookRoleProvider;
         log.info("CustomMethodSecurityExpressionRoot");
     }
 
     public boolean isMember(String group) {
         UserBean u = UserBean.getUserOf(((DefaultOAuth2User) this.getPrincipal()).getAttributes());
 
-        String userRole = profileInfoService.getRole(u.getId().toString());
+        UserRole userRole = facebookRoleProvider.getRole(u.getId().toString());
 
-        return userRole.equals(group);
+        return userRole.toString().equals(group);
 
     }
 

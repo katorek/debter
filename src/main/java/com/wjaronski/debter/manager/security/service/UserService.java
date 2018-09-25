@@ -1,12 +1,13 @@
 package com.wjaronski.debter.manager.security.service;
 
 import com.wjaronski.debter.manager.api.domain.UserBean;
-import com.wjaronski.debter.manager.api.facebook.dto.Profile;
 import com.wjaronski.debter.manager.api.repository.UserBeanRepository;
+import com.wjaronski.debter.manager.web.controller.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Wojciech Jaronski
@@ -21,15 +22,19 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserBean saveUser(Map map) {
+    /*public UserBean saveUser(Map map) {
         log.info("Saving user {}", map);
         UserBean user = UserBean.getUserOf(map);
         return userRepository.save(user);
+    }*/
+
+    public UserBean saveUser(UserBean userBean) {
+        log.info("Saving user {}", userBean);
+//        UserBean user = UserBean.getUserOf(profile);
+        return userRepository.save(userBean);
     }
 
-    public UserBean saveUser(Profile profile) {
-        log.info("Saving user {}", profile);
-        UserBean user = UserBean.getUserOf(profile);
-        return userRepository.save(user);
+    public List<UserDto> findAll() {
+        return userRepository.findAll().stream().map(UserDto::new).collect(Collectors.toList());
     }
 }

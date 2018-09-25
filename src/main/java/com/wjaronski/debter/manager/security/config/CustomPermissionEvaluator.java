@@ -1,3 +1,4 @@
+/*
 package com.wjaronski.debter.manager.security.config;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,3 +50,4 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 
 
 }
+*/

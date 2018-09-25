@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link href="../static/css/style.css" th:href="@{/css/Layout.css}" rel="stylesheet"/>
 <head>
     <meta charset="UTF-8">
     <title>Login Success</title>
 </head>
 <body>
-<p>Hello
-<div th:text="${name}"></div>
-</p>
+<div>
+    <p>Hello</p>
+    <div th:text="${name}"></div>
+</div>
 </body>
 </html>

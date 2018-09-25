@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>-->
+    <!--<link type="text/css" href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>-->
     <meta charset="ISO-8859-1">
 </head>
 <body>
-<h3>Login with:</h3>
+<h1>Login with:</h1>
 <p th:each="url : ${urls}">
     <a th:text="${url.key}" th:href="${url.value}">Client</a>
 </p>

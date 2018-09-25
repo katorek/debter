@@ -3,11 +3,13 @@ package com.wjaronski.debter.manager.api.facebook;
 import com.wjaronski.debter.manager.api.facebook.dto.FacebookAppToken;
 import com.wjaronski.debter.manager.api.facebook.dto.FacebookRole;
 import com.wjaronski.debter.manager.api.facebook.dto.FacebookRolesData;
+import com.wjaronski.debter.manager.api.facebook.dto.UserRole;
 import com.wjaronski.debter.manager.api.facebook.properties.FacebookProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,6 +22,7 @@ import java.util.Objects;
 
 @Slf4j
 @Service
+@ApplicationScope
 public class FacebookRoleProvider {
     private static final String GRAPH_API_BASE_URL = "https://graph.facebook.com/v3.1/";
 
@@ -57,8 +60,12 @@ public class FacebookRoleProvider {
         };
     }
 
-    String getRole(String id) {
-        return getRole().stream().filter(role -> role.getUser().equals(id)).findFirst().map(FacebookRole::getRole).orElse("user");
+    public UserRole getRole(String id) {
+        return getRole().stream().filter(role -> role.getUser().equals(id)).findFirst().map(it -> UserRole.getFromFacebookRole(it.getRole())).orElse(UserRole.USER);
+    }
+
+    public UserRole getRole(Long id) {
+        return getRole(id.toString());
     }
 
     private List<FacebookRole> getRole() {

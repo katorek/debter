@@ -13,9 +13,10 @@ public class FacebookProfileProvider extends ApiBinding {
         super(accessToken);
     }
 
-    Profile getProfile() {
+    public Profile getProfile() {
+//        restTemplate.
         return restTemplate.getForObject(
-                GRAPH_API_BASE_URL + "/me", Profile.class
+                GRAPH_API_BASE_URL + "/me?fields=friends,email", Profile.class
         );
     }
 

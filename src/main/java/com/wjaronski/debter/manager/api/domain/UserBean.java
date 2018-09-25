@@ -2,13 +2,11 @@ package com.wjaronski.debter.manager.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wjaronski.debter.manager.api.facebook.dto.Profile;
+import com.wjaronski.debter.manager.api.facebook.dto.UserRole;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Map;
 
 @Builder
@@ -28,7 +26,8 @@ public class UserBean {
 
     private String provider;
     private String email;
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     public static UserBean getUserOf(String login) {
         return UserBean.builder().name(login).build();
@@ -39,7 +38,6 @@ public class UserBean {
                 .id(Long.valueOf((String) map.get("id")))
                 .name((String) map.get("name"))
                 .email((String) map.get("email"))
-                .role((String) map.get("role"))
                 .build();
     }
 

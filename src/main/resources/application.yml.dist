@@ -2,7 +2,7 @@ spring:
   jackson.serialization.INDENT_OUTPUT: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   h2.console:
     enabled: true
     path: /h2

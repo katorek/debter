@@ -3,7 +3,7 @@ package com.wjaronski.debter.manager.web.controller;
 import com.wjaronski.debter.manager.api.domain.Bill;
 import com.wjaronski.debter.manager.api.domain.Debt;
 import com.wjaronski.debter.manager.api.domain.dto.DebtDto;
-import com.wjaronski.debter.manager.api.facebook.ProfileInfoService;
+import com.wjaronski.debter.manager.api.facebook.FacebookProfileProvider;
 import com.wjaronski.debter.manager.api.facebook.dto.Profile;
 import com.wjaronski.debter.manager.api.service.BillService;
 import com.wjaronski.debter.manager.api.service.DebtService;
@@ -30,18 +30,18 @@ public class DebtController {
     private final DebtService debtService;
     private final BillService billService;
 
-    private final ProfileInfoService profileInfoService;
+    private FacebookProfileProvider facebookProfileProvider;
 
-    public DebtController(DebtService debtService, BillService billService, ProfileInfoService profileInfoService) {
+    public DebtController(DebtService debtService, BillService billService, FacebookProfileProvider facebookProfileProvider) {
         this.debtService = debtService;
         this.billService = billService;
-        this.profileInfoService = profileInfoService;
+        this.facebookProfileProvider = facebookProfileProvider;
     }
 
     @GetMapping("/all")
     @PreAuthorize("isMember('administrators')")
     public List<DebtDto> getAll() {
-        Profile p = profileInfoService.getProfile();
+        Profile p = facebookProfileProvider.getProfile();
         log.info("Profile: {}", p);
 
         return debtService.findAll().stream().map(DebtDto::new).collect(Collectors.toList());
@@ -49,7 +49,7 @@ public class DebtController {
 
     @GetMapping
     public List<DebtDto> getMyDebts() {
-        Profile currentUser = profileInfoService.getProfile();
+        Profile currentUser = facebookProfileProvider.getProfile();
         return debtService.findAllFor(currentUser.getId())
                 .stream()
                 .map(DebtDto::new)
