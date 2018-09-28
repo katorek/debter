@@ -1,4 +1,5 @@
 package com.wjaronski.debter.manager.api.facebook;
+/*
 
 import com.wjaronski.debter.manager.api.ApiBinding;
 import com.wjaronski.debter.manager.api.facebook.dto.Profile;
@@ -22,3 +23,4 @@ public class FacebookProfileProvider extends ApiBinding {
 
 
 }
+*/

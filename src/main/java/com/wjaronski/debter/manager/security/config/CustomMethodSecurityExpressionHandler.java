@@ -1,4 +1,5 @@
 package com.wjaronski.debter.manager.security.config;
+/*
 
 import com.wjaronski.debter.manager.api.facebook.FacebookRoleProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -28,4 +29,4 @@ public class CustomMethodSecurityExpressionHandler extends DefaultMethodSecurity
         root.setRoleHierarchy(getRoleHierarchy());
         return root;
     }
-}
+}*/

@@ -1,4 +1,5 @@
 package com.wjaronski.debter.manager.security.config;
+/*
 
 import com.wjaronski.debter.manager.api.facebook.FacebookProfileProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -34,4 +35,4 @@ public class SocialConfig {
         return new FacebookProfileProvider(accessToken);
     }
 
-}
+}*/

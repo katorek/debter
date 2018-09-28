@@ -12,7 +12,7 @@ public class Profile {
     private String email;
     private UserRole role;
     @Transient
-    private ProfileData friends;
+//    private ProfileData friends;
 
     public void mergeWithUser(Map<String, Object> attributes) {
         if (id.equals(attributes.get("id"))) {

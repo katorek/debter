@@ -1,4 +1,5 @@
 package com.wjaronski.debter.manager.security.config;
+/*
 
 import com.wjaronski.debter.manager.api.domain.UserBean;
 import com.wjaronski.debter.manager.api.facebook.FacebookRoleProvider;
@@ -57,3 +58,4 @@ public class CustomMethodSecurityExpressionRoot extends SecurityExpressionRoot i
         return this;
     }
 }
+*/

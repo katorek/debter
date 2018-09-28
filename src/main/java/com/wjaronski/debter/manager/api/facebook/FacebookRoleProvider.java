@@ -1,4 +1,5 @@
 package com.wjaronski.debter.manager.api.facebook;
+/*
 
 import com.wjaronski.debter.manager.api.facebook.dto.FacebookAppToken;
 import com.wjaronski.debter.manager.api.facebook.dto.FacebookRole;
@@ -16,9 +17,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.Objects;
 
+*/
 /**
  * Created by Wojciech Jaronski
- */
+ *//*
+
 
 @Slf4j
 @Service
@@ -76,3 +79,4 @@ public class FacebookRoleProvider {
         return Objects.requireNonNull(roles).getData();
     }
 }
+*/

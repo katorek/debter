@@ -1,4 +1,5 @@
 package com.wjaronski.debter.manager.security.config;
+/*
 
 import com.wjaronski.debter.manager.api.domain.UserBean;
 import com.wjaronski.debter.manager.api.facebook.FacebookRoleProvider;
@@ -16,9 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+*/
 /**
  * Created by Wojciech Jaronski
- */
+ *//*
+
 
 @Slf4j
 @Service
@@ -44,3 +47,4 @@ public class SecurityHandler implements AuthenticationSuccessHandler {
         httpServletResponse.sendRedirect("/loginSuccess");
     }
 }
+*/

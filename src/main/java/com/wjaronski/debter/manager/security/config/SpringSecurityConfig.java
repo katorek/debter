@@ -1,4 +1,5 @@
 package com.wjaronski.debter.manager.security.config;
+/*
 
 import com.wjaronski.debter.manager.api.facebook.FacebookRoleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,3 +61,4 @@ public class SpringSecurityConfig extends GlobalMethodSecurityConfiguration {
         }
     }
 }
+*/
